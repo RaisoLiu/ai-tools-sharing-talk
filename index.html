@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>結合 AI 工具與跨領域神經科學研究</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  :root {
+    --r-background-color: #0F172A;
+    --r-main-font: 'Noto Sans TC', sans-serif;
+    --r-heading-font: 'Noto Sans TC', sans-serif;
+    --r-code-font: 'JetBrains Mono', monospace;
+    --r-main-color: #E2E8F0;
+    --r-heading-color: #FFFFFF;
+    --r-link-color: #00D2FF;
+    --accent: #00D2FF;
+    --accent2: #FF6B6B;
+    --accent3: #7C3AED;
+    --green: #10B981;
+    --yellow: #FBBF24;
+    --gray: #64748B;
+    --light-gray: #94A3B8;
+  }
+
+  .reveal { font-size: 38px; }
+  .reveal h1, .reveal h2, .reveal h3 { font-weight: 900; letter-spacing: -0.02em; }
+  .reveal h1 { font-size: 2.6em; }
+  .reveal h2 { font-size: 2em; }
+  .reveal h3 { font-size: 1.4em; }
+
+  .reveal section { text-align: left; }
+  .center { text-align: center !important; }
+
+  .accent { color: var(--accent); }
+  .accent2 { color: var(--accent2); }
+  .accent3 { color: var(--accent3); }
+  .green { color: var(--green); }
+  .yellow { color: var(--yellow); }
+  .gray { color: var(--light-gray); }
+  .dim { color: var(--gray); }
+  .bold { font-weight: 700; }
+
+  .accent-line {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    margin: 0.5em 0 1em;
+    border-radius: 2px;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 4em;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.3;
+    position: absolute;
+    top: 0.1em;
+    left: 0.2em;
+  }
+
+  .section-divider { background: linear-gradient(135deg, #141E33 0%, #0F172A 100%); }
+  .section-divider h2 { font-size: 2.4em; }
+
+  .timeline { list-style: none; padding: 0; margin: 0; }
+  .timeline li {
+    position: relative;
+    padding: 0.3em 0 0.3em 2em;
+    border-left: 2px solid #1E293B;
+    margin-left: 0.5em;
+  }
+  .timeline li::before {
+    content: '';
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: absolute;
+    left: -8px; top: 0.65em;
+  }
+  .timeline li:nth-child(4)::before { background: var(--green); }
+  .timeline li:nth-child(5)::before { background: var(--accent2); }
+  .timeline li:nth-child(6)::before { background: var(--accent); }
+  .timeline li .tl-title { font-weight: 700; color: #fff; }
+  .timeline li .tl-desc { color: var(--light-gray); font-size: 0.85em; }
+
+  .columns { display: flex; gap: 2em; }
+  .col { flex: 1; }
+
+  .items { list-style: none; padding: 0; }
+  .items li { padding: 0.4em 0; font-size: 0.9em; }
+  .items li .icon { display: inline-block; width: 1.5em; text-align: center; }
+
+  .placeholder {
+    background: #1E293B;
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 2em;
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.8em;
+    margin: 0.5em 0;
+  }
+
+  .big-quote {
+    font-size: 1.8em;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .quote-attr {
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.7em;
+    margin-top: 0.3em;
+  }
+
+  .superpower {
+    font-size: 2.2em;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .tagline {
+    font-size: 0.7em;
+    color: var(--gray);
+    text-align: center;
+    margin-top: 1em;
+  }
+
+  .reveal .progress { color: var(--accent); height: 4px; }
+  .reveal .slide-number { font-family: 'JetBrains Mono'; font-size: 0.5em; color: var(--gray); }
+
+  .img-fill { max-width: 90%; max-height: 450px; border-radius: 8px; border: 1px solid #1E293B; cursor: zoom-in; transition: transform 0.2s; }
+  .img-fill:hover { border-color: var(--accent); }
+  .img-caption { color: var(--gray); font-size: 0.55em; margin-top: 0.3em; font-style: italic; text-align: center; }
+
+  /* Lightbox */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img {
+    max-width: 95vw;
+    max-height: 95vh;
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0,210,255,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============ SLIDE 1: Title ============ -->
+<section class="center">
+  <div class="accent-line"></div>
+  <h1>結合 AI 工具與<br>跨領域神經科學研究</h1>
+  <p class="gray" style="font-size:0.65em;">Combining AI Tools with Interdisciplinary Neuroscience Research</p>
+  <br>
+  <p style="font-size:0.6em;">
+    劉宇舜 &nbsp;·&nbsp; 中研院 吳玉威實驗室 / 陽明交大 魏群樹實驗室 &nbsp;·&nbsp; 2026.03.31
+  </p>
+  <p class="accent" style="font-size:0.55em;">🧠 自動化研究 × 自學 × 認真過每一天</p>
+</section>
+
+<!-- ============ SLIDE 2: About Me (merged) ============ -->
+<section>
+  <h2>關於我 &amp; 我的研究旅程</h2>
+  <div class="accent-line"></div>
+  <ul class="items" style="font-size:0.85em;">
+    <li><span class="icon">🔬</span> 研究方向：用 AI（視覺基礎模型）做動物行為自動辨識</li>
+    <li class="accent"><span class="icon">📄</span> 第一作者論文 — <span class="bold">CASTLE</span>：基於 DINOv2 的無監督行為分析</li>
+    <li class="accent2"><span class="icon">📮</span> 投稿 <span class="bold">Neuron</span> → 送審 → 被拒絕</li>
+    <li class="yellow"><span class="icon">💡</span> 一個有故事的博士生，提供各位職涯與研究選擇的參考</li>
+  </ul>
+  <div style="margin-top:0.8em;">
+    <ul class="timeline" style="font-size:0.7em;">
+      <li><span class="tl-title">進入神經科學</span><br><span class="tl-desc">跨領域的陣痛期 — 完全不同的思維方式</span></li>
+      <li><span class="tl-title">發現問題</span><br><span class="tl-desc">動物行為標注太慢、太主觀</span></li>
+      <li><span class="tl-title green">CASTLE 誕生</span><br><span class="tl-desc">DINOv2 + 無監督學習 → 自動行為分群</span></li>
+      <li><span class="tl-title accent2">投稿 Neuron</span><br><span class="tl-desc">送審後被拒 — 但 reviewer 的回饋很寶貴</span></li>
+      <li><span class="tl-title accent">現在</span><br><span class="tl-desc">持續 benchmark，準備再投</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3: Section - AI Scientist ============ -->
+<section class="section-divider center" data-background-color="#141E33">
+  <div class="section-num">01</div>
+  <h2>AI 全自動做研究的發展</h2>
+  <p class="accent" style="font-size:0.7em;">The AI Scientist · Sakana AI &amp; Nature (2026)</p>
+  <div class="accent-line" style="width:60%;margin:0.5em auto;"></div>
+  <p class="gray" style="font-size:0.6em;">
+    當 AI 能自己提出假說、寫程式、跑實驗、寫論文…<br>研究者的角色會怎麼改變？
+  </p>
+  <p style="font-size:0.5em; margin-top:1em;">
+    📄 <a href="https://www.nature.com/articles/s41586-026-10265-5" target="_blank" style="color:var(--accent);">Lu et al., Nature (2026) — The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery</a>
+  </p>
+</section>
+
+<!-- ============ SLIDE 4: What AI Scientist does + Figure ============ -->
+<section>
+  <h2>AI Scientist 做了什麼？</h2>
+  <div class="accent-line"></div>
+  <div class="columns">
+    <div class="col">
+      <ul class="items" style="font-size:0.75em;">
+        <li><span class="icon">🧪</span> 自動生成研究假說</li>
+        <li><span class="icon">💻</span> 自己寫實驗程式碼</li>
+        <li><span class="icon">📊</span> 自動跑實驗、分析結果</li>
+        <li><span class="icon">📝</span> 自動撰寫完整論文 (LaTeX)</li>
+        <li><span class="icon">🔍</span> 自動 Peer Review</li>
+        <li class="accent"><span class="icon">🔄</span> 迭代改進</li>
+      </ul>
+      <p class="yellow" style="font-size:0.6em; margin-top:0.5em;">
+        💰 ~$15 USD / paper &nbsp;·&nbsp; ~數小時
+      </p>
+    </div>
+    <div class="col center">
+      <div class="placeholder" style="min-height:300px;">
+        [ Nature Fig. 2 — AI Scientist Pipeline 示意圖 ]<br>
+        <span style="font-size:0.7em;">📌 演講時切換到論文頁面展示</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5: My Replication — Dementia Study ============ -->
+<section>
+  <h2>AI 能力展示：EEG 失智症分類</h2>
+  <div class="accent-line"></div>
+  <p style="font-size:0.65em; margin-bottom:0.3em;">
+    AI 自主完成：<span class="accent bold">Comprehensive Benchmark of ML & DL for EEG-Based Dementia Differential Diagnosis</span><br>
+    <span class="dim">AD vs CN / FTD vs CN / Multiclass — 88 subjects, ~29K epochs, 13 models</span>
+  </p>
+  <div class="columns" style="margin-top:0.5em;">
+    <div class="col center">
+      <img src="dementia-performance.png" class="img-fill" alt="Performance Comparison" style="max-height:350px;">
+      <p class="img-caption">Performance comparison across 13 models</p>
+    </div>
+    <div class="col center">
+      <img src="dementia-radar.png" class="img-fill" alt="Radar Charts" style="max-height:350px;">
+      <p class="img-caption">Multi-metric radar chart analysis</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6: Pros & Cons ============ -->
+<section>
+  <h2>AI 自動研究：優勢與限制</h2>
+  <div class="accent-line"></div>
+  <div class="columns">
+    <div class="col">
+      <h3 class="green">✅ 優勢</h3>
+      <ul class="items" style="font-size:0.8em;">
+        <li><span class="icon">📈</span> 產出越來越像正式論文</li>
+        <li><span class="icon">🌉</span> 擅長把 A 領域方法搬到 B 領域</li>
+        <li><span class="icon">⚡</span> 速度極快、成本極低</li>
+        <li><span class="icon">🔄</span> 可大量迭代、不會疲勞</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3 class="accent2">⚠️ 限制</h3>
+      <ul class="items" style="font-size:0.8em;">
+        <li class="accent2"><span class="icon">🚨</span> 會犯資料洩漏 (Data Leakage)</li>
+        <li class="accent2"><span class="icon">📉</span> 會產出意義不明的圖表</li>
+        <li><span class="icon">🤖</span> 缺乏真正的科學直覺</li>
+        <li class="yellow"><span class="icon">🔮</span> 但這些都在快速改善中…</li>
+      </ul>
+    </div>
+  </div>
+  <p class="accent bold center" style="margin-top:0.8em; font-size:0.95em;">
+    🔑 時代紅利：做困難事情的門檻大幅降低
+  </p>
+</section>
+
+<!-- ============ SLIDE 7: Section - How low ============ -->
+<section class="section-divider center" data-background-color="#141E33">
+  <div class="section-num">02</div>
+  <h2>門檻到底有多低？</h2>
+  <p class="accent" style="font-size:0.7em;">Live Demo · AI 驅動的數據分析</p>
+  <div class="accent-line" style="width:60%;margin:0.5em auto;"></div>
+</section>
+
+<!-- ============ SLIDE 8: Lobster + Team Analysis (merged) ============ -->
+<section>
+  <h2>案例：AI 數據分析實戰</h2>
+  <div class="accent-line"></div>
+  <div class="columns">
+    <div class="col">
+      <h3 style="font-size:0.85em;">🦞 龍蝦行為分析</h3>
+      <ul class="items" style="font-size:0.7em;">
+        <li class="accent"><span class="icon">1️⃣</span> 一段對話 → AI 設計分析 pipeline</li>
+        <li><span class="icon">2️⃣</span> Step-by-step panel</li>
+        <li class="yellow"><span class="icon">3️⃣</span> AI 主動指出錯誤並說服修正</li>
+        <li><span class="icon">4️⃣</span> 產出可放進論文的圖</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3 style="font-size:0.85em;">🐭 MPTP 老鼠團隊分析</h3>
+      <ul class="items" style="font-size:0.7em;">
+        <li><span class="icon">🧪</span> <span class="bold">Agent 1</span> — SG Parameter Sweep</li>
+        <li><span class="icon">📊</span> <span class="bold">Agent 2</span> — Pre vs Post Profiles</li>
+        <li><span class="icon">🔍</span> <span class="bold">Agent 3</span> — Phase Decomposition</li>
+      </ul>
+      <p class="yellow" style="font-size:0.65em; margin-top:0.3em;">✅ 3 sub-agents → 30 分鐘後自動彙報</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9: Team Analysis Demo ============ -->
+<section class="center">
+  <h2>AI 團隊分析 — 指令 → 結果</h2>
+  <div class="accent-line"></div>
+  <div class="columns" style="align-items:flex-start;">
+    <div class="col center">
+      <img src="mptp-transition-network.png" class="img-fill" alt="Transition Network" style="max-height:450px;">
+      <p class="img-caption">行為轉移機率變化網絡圖</p>
+    </div>
+    <div class="col center">
+      <img src="mptp-layer3-results.png" class="img-fill" alt="MPTP Layer 3 Results" style="max-height:450px;">
+      <p class="img-caption">行為時間分配 + Bout 分析</p>
+    </div>
+  </div>
+  <p class="accent bold" style="font-size:0.85em; margin-top:0.3em;">
+    🔑 人只負責「提問」，AI 負責「設計 + 執行 + 分析 + 報告」
+  </p>
+</section>
+
+<!-- ============ SLIDE 10: Everyone is a data analyst ============ -->
+<section class="center">
+  <div class="big-quote">「現在人人都是軟體工程師」</div>
+  <div class="quote-attr">— Naval Ravikant</div>
+  <br>
+  <div class="accent-line" style="width:50%; margin:0.5em auto; background:linear-gradient(90deg, var(--accent3), var(--accent));"></div>
+  <br>
+  <div class="big-quote accent">現在，人人都是數據分析師</div>
+  <br>
+  <p style="font-size:0.85em;">
+    AI 擁有所有做研究的基礎知識<br>
+    關鍵問題是 — <span class="yellow bold">你會不會問問題？</span>
+  </p>
+</section>
+
+<!-- ============ SLIDE 11: Superpower ============ -->
+<section class="center" data-background-color="#141E33">
+  <div class="superpower">
+    AI 的執行力<br>
+    <span class="accent">＋ 你的想像力</span><br>
+    <span class="yellow">＝ 你的超能力</span>
+  </div>
+  <div class="accent-line" style="width:60%; margin:1em auto;"></div>
+  <p class="tagline">The tools are ready. The question is: what will you build?</p>
+</section>
+
+<!-- ============ SLIDE 12: Section - 想像力 ============ -->
+<section class="section-divider center" data-background-color="#141E33">
+  <div class="section-num">03</div>
+  <h2>想像力從哪裡來？</h2>
+  <p class="accent" style="font-size:0.7em;">自學 · 多樣性 · 知識碰撞</p>
+  <div class="accent-line" style="width:60%;margin:0.5em auto;"></div>
+  <p class="gray" style="font-size:0.65em;">
+    或許佛陀可以苦思 20 年來創造思想，<br>
+    但身為普通人的我，透過接觸不同的事物，<br>
+    讓充滿多樣性的資訊在腦中相遇，<br>
+    是最容易發生創意的方式。
+  </p>
+</section>
+
+<!-- ============ SLIDE 13: CEBRA 示意圖 ============ -->
+<section>
+  <h2>CEBRA — 神經訊號 × 行為</h2>
+  <div class="accent-line"></div>
+  <p style="font-size:0.7em; margin-bottom:0.3em;">
+    玉威分享 <span class="accent bold">CEBRA</span>：用 Contrastive Learning 將神經訊號映射到低維行為空間
+  </p>
+  <div class="columns" style="align-items:flex-start;">
+    <div class="col center" style="flex:1.3;">
+      <video src="cebra-demo-video.mp4" class="img-fill video-lightbox" style="max-height:420px; cursor:zoom-in;" muted></video>
+      <p class="img-caption">CEBRA Demo — 神經訊號 → 行為解碼</p>
+    </div>
+    <div class="col" style="flex:1;">
+      <div class="center" style="margin-bottom:0.5em;">
+        <img src="cebra-diagram.png" class="img-fill" alt="CEBRA Pipeline" style="max-height:180px;">
+      </div>
+      <ul class="items" style="font-size:0.7em;">
+        <li class="accent"><span class="icon">🧠</span> Neural data → Nonlinear encoder</li>
+        <li><span class="icon">🔗</span> Contrastive loss: attract similar, repel dissimilar</li>
+        <li class="green"><span class="icon">📐</span> Low-dimensional embedding → 行為解碼</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 14: Attention Heads Demo ============ -->
+<section>
+  <h2>視覺編碼器的 Attention Heads</h2>
+  <div class="accent-line"></div>
+  <div class="columns" style="align-items:flex-start;">
+    <div class="col center" style="flex:1.5;">
+      <video src="attention-heads-mouse.mp4" class="img-fill" style="max-height:480px; cursor:pointer;" controls autoplay loop muted></video>
+      <p class="img-caption">DINOv2 的 8 個 Attention Heads 視覺化</p>
+    </div>
+    <div class="col" style="flex:1; font-size:0.8em;">
+      <h3 style="font-size:0.9em;" class="accent">🔍 發現</h3>
+      <ul class="items" style="font-size:0.85em;">
+        <li class="yellow"><span class="icon">✋</span> 其中一個 Head <span class="bold">專注在小鼠的手上</span></li>
+        <li><span class="icon">🧠</span> 不同 Head 關注不同身體部位</li>
+        <li class="green"><span class="icon">💡</span> 視覺編碼器<span class="bold">自動學會了</span>小鼠的姿態結構</li>
+      </ul>
+      <p style="margin-top:0.8em; font-size:0.8em;" class="gray">
+        → 無需任何標注，模型就能「看懂」動物行為的關鍵特徵
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 15: CEBRA → CLIP → CASTLE ============ -->
+<section>
+  <h2>從 CEBRA 到 CASTLE 的誕生</h2>
+  <div class="accent-line"></div>
+  <ul class="items" style="font-size:0.8em;">
+    <li><span class="icon">📚</span> 其中的 C = <span class="bold">Contrastive Learning（對比學習）</span><br>
+      <span class="gray" style="font-size:0.8em; padding-left:1.5em;">→ 知識體系剛從「百家爭鳴」到「秦朝統一」</span>
+    </li>
+    <li><span class="icon">🎬</span> 自學完 YouTube 上所有對比學習教學</li>
+    <li class="yellow"><span class="icon">💡</span> 發現 OpenAI 的 <span class="bold">CLIP</span> 才是對比學習的精髓<br>
+      <span class="gray" style="font-size:0.8em; padding-left:1.5em;">→ 對齊文字編碼器與圖像編碼器的特徵向量</span>
+    </li>
+    <li class="green"><span class="icon">🔬</span> 直覺：視覺編碼器是<span class="bold">通用的</span>，可以描述所有東西<br>
+      <span class="gray" style="font-size:0.8em; padding-left:1.5em;">→ 確實可以抓到小鼠姿態變化！→ <span class="accent bold">CASTLE 誕生</span></span>
+    </li>
+  </ul>
+</section>
+
+<!-- ============ SLIDE 15: 自學建議 ============ -->
+<section>
+  <h2>給跨領域研究者的建議</h2>
+  <div class="accent-line"></div>
+  <ul class="items" style="font-size:0.85em;">
+    <li class="accent2"><span class="icon">⚠️</span> <span class="bold">不要過度依賴指導教授</span><br>
+      <span class="gray" style="font-size:0.8em; padding-left:1.5em;">有一天你想知道的事情，地球上沒有比你懂的人了</span>
+    </li>
+    <li class="green"><span class="icon">📺</span> YouTube + GPT — <span class="bold">知識流動性已經非常高</span></li>
+    <li class="yellow"><span class="icon">🎯</span> <span class="bold">訓練自己的品味</span><br>
+      <span class="gray" style="font-size:0.8em; padding-left:1.5em;">沒有審核機制 → 有些 YouTuber 亂講一通</span>
+    </li>
+    <li class="accent"><span class="icon">🔥</span> 我的標準：找到<span class="bold">有熱情的人</span>，而不是為了點閱率的人</li>
+  </ul>
+</section>
+
+<!-- ============ SLIDE 16: Section - 個人旅程 ============ -->
+<section class="section-divider center" data-background-color="#141E33">
+  <div class="section-num">04</div>
+  <h2>我的跨領域旅程</h2>
+  <p class="accent" style="font-size:0.7em;">「接下來是比較沒那麼有參考價值的部分」</p>
+  <div class="accent-line" style="width:60%;margin:0.5em auto;"></div>
+</section>
+
+<!-- ============ SLIDE 17: 個人故事 ============ -->
+<section>
+  <h2>從機械系到神經科學</h2>
+  <div class="accent-line"></div>
+  <ul class="timeline" style="font-size:0.75em;">
+    <li><span class="tl-title">機械系（大學 + 碩士）</span><br>
+      <span class="tl-desc">我爸覺得機械好，我沒意見就選了</span></li>
+    <li><span class="tl-title yellow">大三：看完《刀劍神域》和《命運石之門》</span><br>
+      <span class="tl-desc">覺得神經科學好有趣！想去碰碰看<br>反正隨時可以離開去台積電輪班 😂</span></li>
+    <li><span class="tl-title">遇到做神經訊號數據分析的教授</span><br>
+      <span class="tl-desc">自學 decoding，待了一年半</span></li>
+    <li><span class="tl-title green">遇到玉威 → 剛好用上剛培養好的技能</span><br>
+      <span class="tl-desc">做 electrode pooling，用上之前打比賽學的演算法</span></li>
+    <li><span class="tl-title accent">畢業後正式踏入神經科學領域</span><br>
+      <span class="tl-desc">認真研究 CEBRA → 發展成 CASTLE</span></li>
+    <li><span class="tl-title">推甄博班</span><br>
+      <span class="tl-desc">之前當演算法比賽助教的老師在交大資工 → 推薦信</span></li>
+  </ul>
+</section>
+
+<!-- ============ SLIDE 18: 結論 ============ -->
+<section class="center" data-background-color="#141E33">
+  <div class="big-quote" style="font-size:2em;">「認真過每個時刻」</div>
+  <div class="accent-line" style="width:50%; margin:0.5em auto; background:linear-gradient(90deg, var(--accent3), var(--accent));"></div>
+  <div style="margin:0.5em auto; max-width:720px;">
+    <video src="personal-journey-video.mp4" style="width:100%; border-radius:12px; border:2px solid var(--accent);" controls></video>
+  </div>
+  <p style="font-size:0.85em;">
+    每一段看似無關的經歷，都可能在未來成為你最重要的<span class="yellow bold">連結</span>
+  </p>
+  <p class="tagline">Stay curious. Stay hungry. Connect the dots.</p>
+</section>
+
+<!-- ============ SLIDE 19: Q&A ============ -->
+<section class="center">
+  <h1 class="accent" style="font-size:4em;">Q & A</h1>
+  <p class="gray" style="font-size:0.8em;">感謝聆聽 &nbsp;·&nbsp; 歡迎提問</p>
+  <br>
+  <p class="dim" style="font-size:0.55em;">
+    劉宇舜 · CASTLE-ai/castle-ai · 中研院 吳玉威實驗室
+  </p>
+</section>
+
+<!-- ============ SLIDE 20: Source (YuTing) ============ -->
+<section class="center">
+  <h2>Supplementary Figure</h2>
+  <div class="accent-line"></div>
+  <img src="page20-yuting.jpg" class="img-fill" alt="YuTing source image" style="max-height:620px; max-width:96%;">
+  <p class="img-caption">page source: YuTing</p>
+</section>
+
+</div>
+</div>
+
+<!-- Lightbox (image) -->
+<div class="lightbox-overlay" id="lightbox" onclick="this.classList.remove('active')">
+  <img id="lightbox-img" src="" alt="Zoomed image">
+</div>
+<!-- Lightbox (video) -->
+<div class="lightbox-overlay" id="video-lightbox" onclick="var v=document.getElementById('lightbox-video');v.pause();v.currentTime=0;this.classList.remove('active');">
+  <video id="lightbox-video" src="" style="max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 0 40px rgba(0,210,255,0.3);" controls></video>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  // Lightbox click-to-zoom (images)
+  document.querySelectorAll('.img-fill:not(video)').forEach(function(img) {
+    if (img.tagName === 'IMG') {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var lb = document.getElementById('lightbox');
+        document.getElementById('lightbox-img').src = this.src;
+        lb.classList.add('active');
+      });
+    }
+  });
+
+  // Lightbox click-to-zoom (videos)
+  document.querySelectorAll('.video-lightbox').forEach(function(vid) {
+    vid.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var lb = document.getElementById('video-lightbox');
+      var lbVid = document.getElementById('lightbox-video');
+      lbVid.src = this.src;
+      lb.classList.add('active');
+      lbVid.play();
+    });
+  });
+
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    width: 1920,
+    height: 1080,
+    margin: 0.06,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    center: false,
+    controls: true,
+    progress: true,
+  });
+</script>
+</body>
+</html>
