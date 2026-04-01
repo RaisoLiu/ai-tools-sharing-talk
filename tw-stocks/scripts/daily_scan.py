@@ -349,24 +349,49 @@ if __name__ == "__main__":
     with open("/tmp/tw_stock_scan_result.txt", "w") as f:
         f.write(output)
 
-    # Push updated data.json to GitHub
+    # Push updated data.json to GitHub via API (git push hangs due to network issues)
     try:
-        workspace = os.path.join(os.path.dirname(__file__), '..', '..')
-        subprocess.run(
-            ['git', 'add', 'tw-stocks/web/data.json'],
-            cwd=workspace, capture_output=True
-        )
-        subprocess.run(
-            ['git', 'commit', '-m', f'auto: update tw-stocks data.json ({_dt.now().strftime("%Y-%m-%d")})'],
-            cwd=workspace, capture_output=True
-        )
-        result = subprocess.run(
-            ['git', 'push', 'origin', 'master'],
-            cwd=workspace, capture_output=True, timeout=30
-        )
-        if result.returncode == 0:
-            print("✅ GitHub push 成功", file=sys.stderr)
+        import base64, urllib.error
+        creds_file = '/tmp/git-creds.txt'
+        if os.path.exists(creds_file):
+            with open(creds_file) as f:
+                creds = f.read().strip()
+            import re as _re
+            m = _re.search(r':(gho_[^@]+)@', creds)
+            token = m.group(1) if m else None
         else:
-            print(f"⚠️ GitHub push 失敗: {result.stderr.decode()}", file=sys.stderr)
+            token = None
+
+        if token:
+            repo = 'RaisoLiu/ai-tools-sharing-talk'
+            file_path = 'tw-stocks/web/data.json'
+            local_path = os.path.join(os.path.dirname(__file__), '..', 'web', 'data.json')
+            with open(local_path, 'rb') as f:
+                content_b64 = base64.b64encode(f.read()).decode()
+
+            # Get current SHA
+            api_url = f'https://api.github.com/repos/{repo}/contents/{file_path}'
+            req = urllib.request.Request(api_url, headers={'Authorization': f'token {token}'})
+            try:
+                resp = json.loads(urllib.request.urlopen(req, timeout=10).read())
+                sha = resp.get('sha', '')
+            except:
+                sha = ''
+
+            # PUT update
+            payload = json.dumps({
+                'message': f'auto: update tw-stocks data.json ({_dt.now().strftime("%Y-%m-%d")})',
+                'content': content_b64,
+                'sha': sha,
+            }).encode()
+            put_req = urllib.request.Request(api_url, data=payload, method='PUT',
+                headers={'Authorization': f'token {token}', 'Content-Type': 'application/json'})
+            result = json.loads(urllib.request.urlopen(put_req, timeout=15).read())
+            if 'content' in result:
+                print("✅ GitHub push 成功", file=sys.stderr)
+            else:
+                print(f"⚠️ GitHub push 失敗: {result.get('message','?')}", file=sys.stderr)
+        else:
+            print("⚠️ 找不到 GitHub token，跳過 push", file=sys.stderr)
     except Exception as e:
         print(f"⚠️ GitHub push 例外: {e}", file=sys.stderr)
