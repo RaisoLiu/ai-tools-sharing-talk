@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>台股篩選 v3</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --blue: #58a6ff;
+  --accent: #1f6feb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 8px;
+  padding-top: env(safe-area-inset-top, 8px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+.header {
+  text-align: center;
+  padding: 12px 0 8px;
+}
+.header h1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+.header .date {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.header .count {
+  font-size: 13px;
+  color: var(--blue);
+  margin-top: 2px;
+}
+.rules {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  padding: 4px 8px 12px;
+  line-height: 1.4;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px 6px;
+  font-size: 14px;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.section-header .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-green { background: var(--green); }
+.dot-yellow { background: var(--yellow); }
+.dot-red { background: var(--red); }
+.stock-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+}
+.stock-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+.stock-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+.stock-code {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 4px;
+}
+.stock-rise {
+  font-size: 16px;
+  font-weight: 700;
+}
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+.stock-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.stock-meta .label {
+  color: var(--muted);
+}
+.stock-meta .val {
+  color: var(--text);
+  font-weight: 500;
+}
+.stock-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 8px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.trust-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.trust-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+.updated {
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  padding: 16px 0 8px;
+}
+.sort-bar {
+  display: flex;
+  gap: 6px;
+  padding: 4px 0 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sort-btn {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.sort-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📋 台股篩選 v3</h1>
+  <div class="date" id="scan-date">—</div>
+  <div class="count" id="scan-count">—</div>
+</div>
+<div class="rules">5EMA &gt; 20EMA &gt; 60EMA ≥5日 · 週均 &gt; 2% · 均額 &gt; 2000M</div>
+
+<div class="sort-bar">
+  <button class="sort-btn active" onclick="sortBy('default')">預設</button>
+  <button class="sort-btn" onclick="sortBy('rise')">漲幅↓</button>
+  <button class="sort-btn" onclick="sortBy('weekly')">週均↓</button>
+  <button class="sort-btn" onclick="sortBy('turnover')">均額↓</button>
+  <button class="sort-btn" onclick="sortBy('trust')">投信%↓</button>
+  <button class="sort-btn" onclick="sortBy('dist')">乖離↓</button>
+  <button class="sort-btn" onclick="sortBy('mktcap')">市值↓</button>
+</div>
+
+<div id="content">
+  <p style="text-align:center;color:var(--muted);padding:40px 0;">載入中...</p>
+</div>
+
+<div class="updated" id="updated-time">—</div>
+
+<script>
+let DATA = null;
+let currentSort = 'default';
+
+function loadData() {
+  fetch('data.json?' + Date.now())
+    .then(r => r.json())
+    .then(d => {
+      DATA = d;
+      document.getElementById('scan-date').textContent = d.date || '—';
+      document.getElementById('scan-count').textContent = `共 ${d.stocks.length} 檔`;
+      document.getElementById('updated-time').textContent = `更新: ${d.updated || '—'}`;
+      render();
+    })
+    .catch(() => {
+      document.getElementById('content').innerHTML = '<p style="text-align:center;color:var(--red);padding:40px 0;">載入失敗</p>';
+    });
+}
+
+function sortBy(key) {
+  currentSort = key;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+function render() {
+  if (!DATA) return;
+  let stocks = [...DATA.stocks];
+
+  if (currentSort === 'rise') stocks.sort((a,b) => b.rise_pct - a.rise_pct);
+  else if (currentSort === 'weekly') stocks.sort((a,b) => b.avg_wk - a.avg_wk);
+  else if (currentSort === 'turnover') stocks.sort((a,b) => b.turnover_m - a.turnover_m);
+  else if (currentSort === 'trust') stocks.sort((a,b) => (b.trust_now||0) - (a.trust_now||0));
+  else if (currentSort === 'dist') stocks.sort((a,b) => b.dist20 - a.dist20);
+  else if (currentSort === 'mktcap') stocks.sort((a,b) => b.mktcap_b - a.mktcap_b);
+
+  let html = '';
+
+  if (currentSort === 'default') {
+    const groups = [
+      { label: '剛起漲 (<1個月)', dot: 'dot-green', tier: 1 },
+      { label: '中段加速 (1~3個月)', dot: 'dot-yellow', tier: 2 },
+      { label: '長線主升 (>3個月)', dot: 'dot-red', tier: 3 },
+    ];
+    for (const g of groups) {
+      const items = stocks.filter(s => s.tier === g.tier);
+      if (!items.length) continue;
+      html += `<div class="section-header"><span class="dot ${g.dot}"></span>${g.label} — ${items.length} 檔</div>`;
+      items.forEach(s => html += card(s));
+    }
+  } else {
+    stocks.forEach(s => html += card(s));
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function card(s) {
+  const riseClass = s.rise_pct >= 0 ? 'pos' : 'neg';
+  const distClass = s.dist20 >= 0 ? 'pos' : 'neg';
+  const trustStr = s.trust_start != null ? `${s.trust_start}→${s.trust_now}%` : '—';
+  const trustPct = Math.min((s.trust_now || 0) / 25 * 100, 100);
+  const mcStr = s.mktcap_b ? `${s.mktcap_b}B` : '—';
+
+  return `<div class="stock-card">
+    <div class="stock-top">
+      <div><span class="stock-name">${s.name}</span><span class="stock-code">${s.code}</span></div>
+      <div class="stock-rise ${riseClass}">${s.rise_pct >= 0 ? '+' : ''}${s.rise_pct.toFixed(1)}%</div>
+    </div>
+    <div class="stock-meta">
+      <div><span class="label">起漲</span> <span class="val">${s.start_date}</span></div>
+      <div><span class="label">持續</span> <span class="val">${s.streak}日</span></div>
+      <div><span class="label">市值</span> <span class="val">${mcStr}</span></div>
+      <div><span class="label">週均</span> <span class="val ${s.avg_wk >= 0 ? 'pos' : 'neg'}">+${s.avg_wk.toFixed(2)}%</span></div>
+      <div><span class="label">乖離</span> <span class="val ${distClass}">${s.dist20 >= 0 ? '+' : ''}${s.dist20.toFixed(1)}%</span></div>
+      <div><span class="label">均額</span> <span class="val">${Math.round(s.turnover_m).toLocaleString()}M</span></div>
+    </div>
+    <div class="stock-row2">
+      <div><span class="label">投信</span> <span class="val">${trustStr}</span></div>
+    </div>
+    ${s.trust_now ? `<div class="trust-bar"><div class="trust-fill" style="width:${trustPct}%"></div></div>` : ''}
+  </div>`;
+}
+
+loadData();
+// Auto-refresh every 5 minutes
+setInterval(loadData, 300000);
+</script>
+</body>
+</html>
