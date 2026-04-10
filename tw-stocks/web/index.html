@@ -204,7 +204,8 @@ function loadData() {
       DATA = d;
       document.getElementById('scan-date').textContent = d.date || '—';
       document.getElementById('scan-count').textContent = `共 ${d.stocks.length} 檔`;
-      document.getElementById('updated-time').textContent = `更新: ${d.updated || '—'}`;
+      const marginDate = d.margin_date ? ` · 融資資料: ${d.margin_date}` : '';
+      document.getElementById('updated-time').textContent = `更新: ${d.updated || '—'}${marginDate}`;
       render();
     })
     .catch(() => {
