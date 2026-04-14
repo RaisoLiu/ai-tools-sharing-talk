@@ -182,7 +182,7 @@ body {
   <button class="sort-btn" onclick="sortBy('weekly')">週均↓</button>
   <button class="sort-btn" onclick="sortBy('turnover')">均額↓</button>
   <button class="sort-btn" onclick="sortBy('trust')">投信%↓</button>
-  <button class="sort-btn" onclick="sortBy('margin')">融資/市值↓</button>
+  <button class="sort-btn" onclick="sortBy('margin')">融資/均額↓</button>
   <button class="sort-btn" onclick="sortBy('dist')">乖離↓</button>
   <button class="sort-btn" onclick="sortBy('mktcap')">市值↓</button>
 </div>
@@ -227,7 +227,7 @@ function render() {
   else if (currentSort === 'weekly') stocks.sort((a,b) => b.avg_wk - a.avg_wk);
   else if (currentSort === 'turnover') stocks.sort((a,b) => b.turnover_m - a.turnover_m);
   else if (currentSort === 'trust') stocks.sort((a,b) => (b.trust_now||0) - (a.trust_now||0));
-  else if (currentSort === 'margin') stocks.sort((a,b) => (b.margin_pct_mktcap||0) - (a.margin_pct_mktcap||0));
+  else if (currentSort === 'margin') stocks.sort((a,b) => (b.margin_pct_turnover||0) - (a.margin_pct_turnover||0));
   else if (currentSort === 'dist') stocks.sort((a,b) => b.dist20 - a.dist20);
   else if (currentSort === 'mktcap') stocks.sort((a,b) => b.mktcap_b - a.mktcap_b);
 
@@ -256,7 +256,7 @@ function card(s) {
   const riseClass = s.rise_pct >= 0 ? 'pos' : 'neg';
   const distClass = s.dist20 >= 0 ? 'pos' : 'neg';
   const trustStr = s.trust_start != null ? `${s.trust_start}→${s.trust_now}%` : '—';
-  const marginStr = s.margin_pct_mktcap != null ? `${s.margin_pct_mktcap.toFixed(2)}%` : '—';
+  const marginStr = s.margin_pct_turnover != null ? `${s.margin_pct_turnover.toFixed(2)}%` : '—';
   const trustPct = Math.min((s.trust_now || 0) / 25 * 100, 100);
   const mcStr = s.mktcap_b ? `${s.mktcap_b}B` : '—';
 
@@ -275,7 +275,7 @@ function card(s) {
     </div>
     <div class="stock-row2">
       <div><span class="label">投信</span> <span class="val">${trustStr}</span></div>
-      <div><span class="label">融資/市值</span> <span class="val">${marginStr}</span></div>
+      <div><span class="label">融資/均額</span> <span class="val">${marginStr}</span></div>
     </div>
     ${s.trust_now ? `<div class="trust-bar"><div class="trust-fill" style="width:${trustPct}%"></div></div>` : ''}
   </div>`;
