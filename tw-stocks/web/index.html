@@ -116,6 +116,8 @@ body {
   color: var(--text);
   font-weight: 500;
 }
+.stock-meta .val.pos, .stock-row2 .val.pos { color: var(--green); }
+.stock-meta .val.neg, .stock-row2 .val.neg { color: var(--red); }
 .stock-row2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -257,6 +259,7 @@ function card(s) {
   const distClass = s.dist20 >= 0 ? 'pos' : 'neg';
   const trustStr = s.trust_start != null ? `${s.trust_start}→${s.trust_now}%` : '—';
   const marginStr = s.margin_pct_turnover != null ? `${s.margin_pct_turnover.toFixed(2)}%` : '—';
+  const marginClass = (s.margin_pct_turnover || 0) > 100 ? 'neg' : '';
   const trustPct = Math.min((s.trust_now || 0) / 25 * 100, 100);
   const mcStr = s.mktcap_b ? `${s.mktcap_b}B` : '—';
 
@@ -275,7 +278,7 @@ function card(s) {
     </div>
     <div class="stock-row2">
       <div><span class="label">投信</span> <span class="val">${trustStr}</span></div>
-      <div><span class="label">融資/均額</span> <span class="val">${marginStr}</span></div>
+      <div><span class="label">融資/均額</span> <span class="val ${marginClass}">${marginStr}</span></div>
     </div>
     ${s.trust_now ? `<div class="trust-bar"><div class="trust-fill" style="width:${trustPct}%"></div></div>` : ''}
   </div>`;
