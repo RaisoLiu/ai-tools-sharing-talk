@@ -175,6 +175,7 @@ body {
   <h1>📋 台股篩選 v3</h1>
   <div class="date" id="scan-date">—</div>
   <div class="count" id="scan-count">—</div>
+  <div class="count" id="market-turnover">—</div>
 </div>
 <div class="rules">5EMA &gt; 20EMA &gt; 60EMA ≥5日 · 週均 &gt; 2% · 均額 &gt; 5000M · 投信持股上升 ≥ 0.1%</div>
 
@@ -206,6 +207,8 @@ function loadData() {
       DATA = d;
       document.getElementById('scan-date').textContent = d.date || '—';
       document.getElementById('scan-count').textContent = `共 ${d.stocks.length} 檔`;
+      const mt = d.market_turnover_total_b != null ? d.market_turnover_total_b.toLocaleString() : '—';
+      document.getElementById('market-turnover').textContent = `當日總成交額: ${mt} 億`;
       document.getElementById('updated-time').textContent = `更新: ${d.updated || '—'}`;
       render();
     })
