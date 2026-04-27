@@ -96,6 +96,12 @@ body {
   color: var(--muted);
   margin-left: 4px;
 }
+.stock-close {
+  font-size: 13px;
+  color: var(--blue);
+  margin-left: 6px;
+  font-weight: 600;
+}
 .stock-rise {
   font-size: 16px;
   font-weight: 700;
@@ -265,10 +271,11 @@ function card(s) {
   const marginClass = (s.margin_pct_turnover || 0) > 100 ? 'neg' : '';
   const trustPct = Math.min((s.trust_now || 0) / 25 * 100, 100);
   const mcStr = s.mktcap_b ? `${s.mktcap_b}B` : '—';
+  const closeStr = s.close != null ? Number(s.close).toFixed(Number(s.close) >= 100 ? 0 : 1) : '—';
 
   return `<div class="stock-card">
     <div class="stock-top">
-      <div><span class="stock-name">${s.name}</span><span class="stock-code">${s.code}</span></div>
+      <div><span class="stock-name">${s.name}</span><span class="stock-close">${closeStr}</span><span class="stock-code">${s.code}</span></div>
       <div class="stock-rise ${riseClass}">${s.rise_pct >= 0 ? '+' : ''}${s.rise_pct.toFixed(1)}%</div>
     </div>
     <div class="stock-meta">
