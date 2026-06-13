@@ -410,6 +410,7 @@ if __name__ == "__main__":
     # Push updated data.json to GitHub via API (git push hangs due to network issues)
     try:
         import urllib.error
+        from datetime import datetime as _dt
         token = get_github_token()
 
         if token:
