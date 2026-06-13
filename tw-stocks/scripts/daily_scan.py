@@ -110,7 +110,7 @@ def main():
     # 3. Download all price data (6 months for EMA60)
     print("⏳ 下載價格資料 (yfinance)...", file=sys.stderr)
     tickers = " ".join(f"{c}.TW" for c in codes)
-    data = yf.download(tickers, period="6mo", interval="1d", progress=False, threads=True)
+    data = yf.download(tickers, period="6mo", interval="1d", progress=False, threads=8)  # bounded for sandbox ulimit -u=512 (threads=True spawns ~1 thread/ticker -> RuntimeError)
 
     # 4. Screen stocks
     print("⏳ 篩選中...", file=sys.stderr)
