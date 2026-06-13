@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 台股篩選 v3 — 每日掃描腳本
-規則：5EMA>20EMA>60EMA ≥5日 + 起漲週均>2% + 離EMA20<20% + 均額>2000M
+規則：5EMA>20EMA>60EMA ≥5日 + 起漲週均>2% + 均額>3000M + 市值>100B
 投信%：顯示 起漲日→現在 的變化
 """
-import json, urllib.request, subprocess, re, sys, time, os
+import base64, json, urllib.request, subprocess, re, sys, time, os
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -27,6 +27,44 @@ def fetch_t86(date_str):
             pass
     return result
 
+
+def extract_market_turnover_total(mkt_json):
+    """Best-effort extraction of TWSE market total turnover from MI_INDEX JSON."""
+    for table in mkt_json.get('tables', []):
+        title = table.get('title', '')
+        if '大盤統計資訊' not in title and '市場成交資訊' not in title:
+            continue
+        for row in table.get('data', []):
+            joined = ''.join(str(x) for x in row)
+            if '成交金額' not in joined:
+                continue
+            for cell in reversed(row):
+                digits = re.sub(r'[^0-9]', '', str(cell))
+                if digits:
+                    return int(digits)
+    return None
+
+
+def get_github_token():
+    """Read a GitHub token from normal env/credential locations; avoid hard-coding temp paths only."""
+    for key in ('GITHUB_TOKEN', 'GH_TOKEN'):
+        token = os.environ.get(key)
+        if token:
+            return token.strip()
+
+    for creds_file in ('/tmp/git-creds.txt', os.path.expanduser('~/.git-credentials')):
+        if not os.path.exists(creds_file):
+            continue
+        try:
+            with open(creds_file) as f:
+                creds = f.read().strip()
+            m = re.search(r':([^:@]+)@github\.com', creds)
+            if m:
+                return m.group(1)
+        except OSError:
+            continue
+    return None
+
 def main():
     import yfinance as yf
     import pandas as pd
@@ -37,6 +75,7 @@ def main():
 
     # 1. Get stock names from TWSE
     mkt = fetch_twse_json("https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?response=json&type=ALLBUT0999")
+    market_turnover_total = extract_market_turnover_total(mkt)
     namemap = {}
     codes = []
     for t in mkt.get('tables', []):
@@ -87,7 +126,7 @@ def main():
                 continue
 
             df['Turnover'] = df['Close'] * df['Volume']
-            if float(df['Turnover'].tail(30).mean()) < 2e9:
+            if float(df['Turnover'].tail(30).mean()) < 3e9:
                 continue
 
             df['EMA5'] = df['Close'].ewm(span=5, adjust=False).mean()
@@ -284,7 +323,7 @@ def main():
 
     lines = []
     lines.append(f"📋 **台股篩選 v3 — {trade_date}**")
-    lines.append(f"規則：5EMA>20EMA>60EMA ≥5日 + 起漲週均>2% + 均額>2000M + 市值>100B")
+    lines.append(f"規則：5EMA>20EMA>60EMA ≥5日 + 起漲週均>2% + 均額>3000M + 市值>100B")
     lines.append(f"共 {len(results)} 檔")
     lines.append("")
 
@@ -312,7 +351,9 @@ def main():
     web_data = {
         'date': str(trade_date),
         'updated': _dt.now().strftime('%Y-%m-%d %H:%M'),
-        'rules': '5EMA>20EMA>60EMA ≥5日 + 起漲週均>2% + 均額>2000M + 市值>100B',
+        'rules': '5EMA>20EMA>60EMA ≥5日 + 起漲週均>2% + 均額>3000M + 市值>100B',
+        'market_turnover_total': market_turnover_total,
+        'market_turnover_total_b': round(market_turnover_total / 1e8, 0) if market_turnover_total else None,
         'stocks': []
     }
     for r in results:
@@ -351,16 +392,8 @@ if __name__ == "__main__":
 
     # Push updated data.json to GitHub via API (git push hangs due to network issues)
     try:
-        import base64, urllib.error
-        creds_file = '/tmp/git-creds.txt'
-        if os.path.exists(creds_file):
-            with open(creds_file) as f:
-                creds = f.read().strip()
-            import re as _re
-            m = _re.search(r':(gho_[^@]+)@', creds)
-            token = m.group(1) if m else None
-        else:
-            token = None
+        import urllib.error
+        token = get_github_token()
 
         if token:
             repo = 'RaisoLiu/ai-tools-sharing-talk'
