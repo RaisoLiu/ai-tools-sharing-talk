@@ -110,7 +110,24 @@ def main():
     # 3. Download all price data (6 months for EMA60)
     print("⏳ 下載價格資料 (yfinance)...", file=sys.stderr)
     tickers = " ".join(f"{c}.TW" for c in codes)
-    data = yf.download(tickers, period="6mo", interval="1d", progress=False, threads=8)  # bounded for sandbox ulimit -u=512 (threads=True spawns ~1 thread/ticker -> RuntimeError)
+    # Chunked download to stay under the sandbox thread limit (ulimit -u=512).
+    # yfinance spawns one thread PER ticker (the threads= param caps concurrent
+    # execution via set_max_threads, NOT thread *creation*), so a single ~1000-ticker
+    # call dies with "RuntimeError: can't start new thread". Download in small chunks
+    # so each chunk's threads finish and die before the next starts (peak << ulimit).
+    _CHUNK = 50
+    _chunks = [codes[i:i + _CHUNK] for i in range(0, len(codes), _CHUNK)]
+    if len(_chunks) >= 2 and len(_chunks[-1]) == 1:
+        _chunks[-1] = [_chunks[-2].pop()] + _chunks[-1]
+    _parts = []
+    for _ci, _ch in enumerate(_chunks):
+        _tk = " ".join(f"{c}.TW" for c in _ch)
+        _d = yf.download(_tk, period="6mo", interval="1d", progress=False, threads=True)
+        if not isinstance(_d.columns, pd.MultiIndex):
+            _d.columns = pd.MultiIndex.from_product([_d.columns, [f"{_ch[0]}.TW"]])
+        _parts.append(_d)
+        print(f"  ... yf {min((_ci + 1) * _CHUNK, len(codes))}/{len(codes)}", file=sys.stderr)
+    data = pd.concat(_parts, axis=1)
 
     # 4. Screen stocks
     print("⏳ 篩選中...", file=sys.stderr)
