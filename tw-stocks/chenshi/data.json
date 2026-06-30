@@ -1,6 +1,6 @@
 {
   "title": "辰穎的選股",
-  "updated": "2026-06-30 19:14 Asia/Taipei",
+  "updated": "2026-06-30 19:25 Asia/Taipei",
   "data_dates": [
     "2026-06-29",
     "2026-06-30"
@@ -11,7 +11,7 @@
     "2026-06-26"
   ],
   "universe_count": 1959,
-  "candidate_count": 237,
+  "candidate_count": 352,
   "avg_errors": 0,
   "matches": [],
   "near": [],
