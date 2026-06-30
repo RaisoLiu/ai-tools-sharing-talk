@@ -1,0 +1,25 @@
+{
+  "title": "辰穎的選股",
+  "updated": "2026-06-30 19:13 Asia/Taipei",
+  "data_dates": [
+    "2026-06-29",
+    "2026-06-30"
+  ],
+  "inst_dates": [
+    "2026-06-30",
+    "2026-06-29",
+    "2026-06-26"
+  ],
+  "universe_count": 1959,
+  "candidate_count": 237,
+  "avg_errors": 0,
+  "matches": [],
+  "near": [],
+  "sources": [
+    "TWSE/TPEX OpenAPI",
+    "MOPS 財報 OpenAPI",
+    "Yahoo chart API",
+    "TWSE T86",
+    "TPEX 3insti daily trading"
+  ]
+}
