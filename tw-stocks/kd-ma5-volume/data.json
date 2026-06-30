@@ -1,0 +1,49 @@
+{
+  "title": "台股 KD 低檔站上 5MA 放量篩選",
+  "updated": "2026-06-30 18:08 Asia/Taipei",
+  "latest_date": "2026-06-30",
+  "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
+  "sources": [
+    "TWSE OpenAPI",
+    "TPEX OpenAPI",
+    "Yahoo chart API"
+  ],
+  "universe_count": 1971,
+  "error_count": 0,
+  "matches": [
+    {
+      "code": "8367",
+      "name": "建新國際",
+      "market": "上市",
+      "date": "2026-06-30",
+      "close": 40.35,
+      "change_pct": 0.87,
+      "K": 21.3,
+      "D": 19.5,
+      "ma5": 40.13,
+      "prev_close": 40.0,
+      "prev_ma5": 40.15,
+      "volume": 95156,
+      "vol_avg5_prev": 41200,
+      "vol_ratio": 2.31,
+      "ma5_turn_up": false
+    },
+    {
+      "code": "2459",
+      "name": "敦吉",
+      "market": "上市",
+      "date": "2026-06-30",
+      "close": 64.2,
+      "change_pct": 1.1,
+      "K": 22.0,
+      "D": 15.6,
+      "ma5": 63.8,
+      "prev_close": 63.5,
+      "prev_ma5": 63.78,
+      "volume": 190768,
+      "vol_avg5_prev": 92611,
+      "vol_ratio": 2.06,
+      "ma5_turn_up": true
+    }
+  ]
+}
