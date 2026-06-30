@@ -1,6 +1,6 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-06-30 18:08 Asia/Taipei",
+  "updated": "2026-06-30 18:09 Asia/Taipei",
   "latest_date": "2026-06-30",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
