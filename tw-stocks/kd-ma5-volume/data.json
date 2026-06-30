@@ -1,6 +1,6 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-06-30 18:11 Asia/Taipei",
+  "updated": "2026-07-01 03:01 Asia/Taipei",
   "latest_date": "2026-06-30",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
@@ -23,9 +23,9 @@
       "ma5": 40.13,
       "prev_close": 40.0,
       "prev_ma5": 40.15,
-      "volume": 95156,
+      "volume": 94000,
       "vol_avg5_prev": 41200,
-      "vol_ratio": 2.31,
+      "vol_ratio": 2.28,
       "ma5_turn_up": false
     },
     {
@@ -40,9 +40,9 @@
       "ma5": 63.8,
       "prev_close": 63.5,
       "prev_ma5": 63.78,
-      "volume": 190768,
+      "volume": 190000,
       "vol_avg5_prev": 92611,
-      "vol_ratio": 2.06,
+      "vol_ratio": 2.05,
       "ma5_turn_up": true
     }
   ]
