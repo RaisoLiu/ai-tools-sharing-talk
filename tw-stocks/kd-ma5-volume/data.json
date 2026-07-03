@@ -1,6 +1,6 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-07-03 03:00 Asia/Taipei",
+  "updated": "2026-07-04 03:00 Asia/Taipei",
   "latest_date": "2026-07-02",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
@@ -60,6 +60,23 @@
       "volume": 136120,
       "vol_avg5_prev": 32425,
       "vol_ratio": 4.2,
+      "ma5_turn_up": false
+    },
+    {
+      "code": "1294",
+      "name": "漢田生技",
+      "market": "上櫃",
+      "date": "2026-07-02",
+      "close": 66.25,
+      "change_pct": 0.89,
+      "K": 25.4,
+      "D": 26.3,
+      "ma5": 65.77,
+      "prev_close": 65.67,
+      "prev_ma5": 65.78,
+      "volume": 581014,
+      "vol_avg5_prev": 142138,
+      "vol_ratio": 4.09,
       "ma5_turn_up": false
     },
     {
