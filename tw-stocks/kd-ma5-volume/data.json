@@ -1,7 +1,7 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-07-21 03:00 Asia/Taipei",
-  "latest_date": "—",
+  "updated": "2026-07-22 03:01 Asia/Taipei",
+  "latest_date": "2026-07-20",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
@@ -10,5 +10,57 @@
   ],
   "universe_count": 1972,
   "error_count": 0,
-  "matches": []
+  "matches": [
+    {
+      "code": "3652",
+      "name": "精聯",
+      "market": "上市",
+      "date": "2026-07-20",
+      "close": 31.0,
+      "change_pct": 6.9,
+      "K": 14.6,
+      "D": 10.1,
+      "ma5": 30.82,
+      "prev_close": 29.0,
+      "prev_ma5": 31.1,
+      "volume": 1594000,
+      "vol_avg5_prev": 231446,
+      "vol_ratio": 6.89,
+      "ma5_turn_up": false
+    },
+    {
+      "code": "6643",
+      "name": "M31",
+      "market": "上櫃",
+      "date": "2026-07-20",
+      "close": 430.5,
+      "change_pct": 9.96,
+      "K": 20.7,
+      "D": 14.7,
+      "ma5": 416.1,
+      "prev_close": 391.5,
+      "prev_ma5": 418.1,
+      "volume": 1339150,
+      "vol_avg5_prev": 364772,
+      "vol_ratio": 3.67,
+      "ma5_turn_up": false
+    },
+    {
+      "code": "1760",
+      "name": "寶齡富錦",
+      "market": "上市",
+      "date": "2026-07-20",
+      "close": 61.4,
+      "change_pct": 2.33,
+      "K": 18.8,
+      "D": 23.7,
+      "ma5": 61.14,
+      "prev_close": 60.0,
+      "prev_ma5": 61.04,
+      "volume": 738001,
+      "vol_avg5_prev": 211302,
+      "vol_ratio": 3.49,
+      "ma5_turn_up": true
+    }
+  ]
 }
