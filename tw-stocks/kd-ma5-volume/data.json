@@ -1,49 +1,32 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-07-25 03:00 Asia/Taipei",
-  "latest_date": "2026-07-23",
+  "updated": "2026-07-26 03:00 Asia/Taipei",
+  "latest_date": "2026-07-24",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
     "TPEX OpenAPI",
     "Yahoo chart API"
   ],
-  "universe_count": 1972,
+  "universe_count": 1973,
   "error_count": 0,
   "matches": [
     {
-      "code": "1340",
-      "name": "勝悅-KY",
+      "code": "1538",
+      "name": "正峰",
       "market": "上市",
-      "date": "2026-07-23",
-      "close": 5.34,
-      "change_pct": 3.49,
-      "K": 24.0,
-      "D": 15.7,
-      "ma5": 5.23,
-      "prev_close": 5.16,
-      "prev_ma5": 5.23,
-      "volume": 475704,
-      "vol_avg5_prev": 215726,
-      "vol_ratio": 2.21,
-      "ma5_turn_up": true
-    },
-    {
-      "code": "5487",
-      "name": "通泰",
-      "market": "上櫃",
-      "date": "2026-07-23",
-      "close": 28.45,
-      "change_pct": 1.25,
-      "K": 27.2,
-      "D": 29.1,
-      "ma5": 28.18,
-      "prev_close": 28.1,
-      "prev_ma5": 28.17,
-      "volume": 171000,
-      "vol_avg5_prev": 84200,
-      "vol_ratio": 2.03,
-      "ma5_turn_up": true
+      "date": "2026-07-24",
+      "close": 10.0,
+      "change_pct": 6.72,
+      "K": 19.6,
+      "D": 17.5,
+      "ma5": 9.79,
+      "prev_close": 9.37,
+      "prev_ma5": 9.84,
+      "volume": 12000,
+      "vol_avg5_prev": 4700,
+      "vol_ratio": 2.55,
+      "ma5_turn_up": false
     }
   ]
 }
