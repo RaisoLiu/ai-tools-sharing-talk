@@ -1,7 +1,7 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-08-03 03:00 Asia/Taipei",
-  "latest_date": "2026-07-31",
+  "updated": "2026-08-04 03:01 Asia/Taipei",
+  "latest_date": "2026-08-03",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
@@ -128,6 +128,23 @@
       "volume": 30147832,
       "vol_avg5_prev": 14248689,
       "vol_ratio": 2.12,
+      "ma5_turn_up": false
+    },
+    {
+      "code": "6907",
+      "name": "雅特力-KY",
+      "market": "上櫃",
+      "date": "2026-08-03",
+      "close": 176.0,
+      "change_pct": 6.67,
+      "K": 24.0,
+      "D": 23.8,
+      "ma5": 165.9,
+      "prev_close": 165.0,
+      "prev_ma5": 170.1,
+      "volume": 1307052,
+      "vol_avg5_prev": 619828,
+      "vol_ratio": 2.11,
       "ma5_turn_up": false
     },
     {
