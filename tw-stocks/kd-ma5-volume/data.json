@@ -1,7 +1,7 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-08-07 03:00 Asia/Taipei",
-  "latest_date": "2026-08-05",
+  "updated": "2026-08-08 03:01 Asia/Taipei",
+  "latest_date": "—",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
@@ -10,57 +10,5 @@
   ],
   "universe_count": 1974,
   "error_count": 0,
-  "matches": [
-    {
-      "code": "5245",
-      "name": "智晶",
-      "market": "上櫃",
-      "date": "2026-08-05",
-      "close": 22.9,
-      "change_pct": 3.62,
-      "K": 21.4,
-      "D": 14.7,
-      "ma5": 22.34,
-      "prev_close": 22.1,
-      "prev_ma5": 22.26,
-      "volume": 570000,
-      "vol_avg5_prev": 24600,
-      "vol_ratio": 23.17,
-      "ma5_turn_up": true
-    },
-    {
-      "code": "1713",
-      "name": "國化",
-      "market": "上市",
-      "date": "2026-08-05",
-      "close": 46.95,
-      "change_pct": 1.84,
-      "K": 23.1,
-      "D": 23.1,
-      "ma5": 46.28,
-      "prev_close": 46.1,
-      "prev_ma5": 46.17,
-      "volume": 555300,
-      "vol_avg5_prev": 211907,
-      "vol_ratio": 2.62,
-      "ma5_turn_up": true
-    },
-    {
-      "code": "4529",
-      "name": "淳紳",
-      "market": "上櫃",
-      "date": "2026-08-05",
-      "close": 4.25,
-      "change_pct": 4.94,
-      "K": 26.8,
-      "D": 25.2,
-      "ma5": 4.11,
-      "prev_close": 4.05,
-      "prev_ma5": 4.09,
-      "volume": 76000,
-      "vol_avg5_prev": 30200,
-      "vol_ratio": 2.52,
-      "ma5_turn_up": true
-    }
-  ]
+  "matches": []
 }
