@@ -1,7 +1,7 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-08-08 03:01 Asia/Taipei",
-  "latest_date": "—",
+  "updated": "2026-08-09 03:00 Asia/Taipei",
+  "latest_date": "2026-08-07",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
@@ -10,5 +10,57 @@
   ],
   "universe_count": 1974,
   "error_count": 0,
-  "matches": []
+  "matches": [
+    {
+      "code": "8472",
+      "name": "夠麻吉",
+      "market": "上櫃",
+      "date": "2026-08-07",
+      "close": 68.9,
+      "change_pct": 1.32,
+      "K": 25.6,
+      "D": 19.9,
+      "ma5": 68.3,
+      "prev_close": 68.0,
+      "prev_ma5": 68.16,
+      "volume": 30030,
+      "vol_avg5_prev": 10438,
+      "vol_ratio": 2.88,
+      "ma5_turn_up": true
+    },
+    {
+      "code": "6872",
+      "name": "浩宇生醫",
+      "market": "上櫃",
+      "date": "2026-08-07",
+      "close": 15.3,
+      "change_pct": 0.66,
+      "K": 16.7,
+      "D": 17.2,
+      "ma5": 15.2,
+      "prev_close": 15.2,
+      "prev_ma5": 15.23,
+      "volume": 69450,
+      "vol_avg5_prev": 25200,
+      "vol_ratio": 2.76,
+      "ma5_turn_up": false
+    },
+    {
+      "code": "8409",
+      "name": "商之器",
+      "market": "上櫃",
+      "date": "2026-08-07",
+      "close": 18.35,
+      "change_pct": 1.38,
+      "K": 27.7,
+      "D": 28.4,
+      "ma5": 18.31,
+      "prev_close": 18.1,
+      "prev_ma5": 18.34,
+      "volume": 12100,
+      "vol_avg5_prev": 4601,
+      "vol_ratio": 2.63,
+      "ma5_turn_up": false
+    }
+  ]
 }
