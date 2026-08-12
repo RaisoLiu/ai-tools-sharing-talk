@@ -1,66 +1,14 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-08-12 03:00 Asia/Taipei",
-  "latest_date": "2026-08-10",
+  "updated": "2026-08-13 03:01 Asia/Taipei",
+  "latest_date": "—",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
     "TPEX OpenAPI",
     "Yahoo chart API"
   ],
-  "universe_count": 1976,
+  "universe_count": 1977,
   "error_count": 0,
-  "matches": [
-    {
-      "code": "8066",
-      "name": "來思達",
-      "market": "上櫃",
-      "date": "2026-08-10",
-      "close": 14.85,
-      "change_pct": 0.68,
-      "K": 21.6,
-      "D": 20.4,
-      "ma5": 14.82,
-      "prev_close": 14.75,
-      "prev_ma5": 14.81,
-      "volume": 60283,
-      "vol_avg5_prev": 5240,
-      "vol_ratio": 11.5,
-      "ma5_turn_up": true
-    },
-    {
-      "code": "8102",
-      "name": "傑霖科技",
-      "market": "上櫃",
-      "date": "2026-08-10",
-      "close": 68.8,
-      "change_pct": 0.73,
-      "K": 25.6,
-      "D": 24.8,
-      "ma5": 68.5,
-      "prev_close": 68.3,
-      "prev_ma5": 69.12,
-      "volume": 29200,
-      "vol_avg5_prev": 5204,
-      "vol_ratio": 5.61,
-      "ma5_turn_up": false
-    },
-    {
-      "code": "7713",
-      "name": "威力德生醫",
-      "market": "上櫃",
-      "date": "2026-08-10",
-      "close": 69.5,
-      "change_pct": 0.87,
-      "K": 21.9,
-      "D": 17.1,
-      "ma5": 69.38,
-      "prev_close": 68.9,
-      "prev_ma5": 69.54,
-      "volume": 31000,
-      "vol_avg5_prev": 15436,
-      "vol_ratio": 2.01,
-      "ma5_turn_up": false
-    }
-  ]
+  "matches": []
 }
