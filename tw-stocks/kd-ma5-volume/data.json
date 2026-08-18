@@ -1,66 +1,14 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-08-18 03:00 Asia/Taipei",
-  "latest_date": "2026-08-14",
+  "updated": "2026-08-19 03:01 Asia/Taipei",
+  "latest_date": "—",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
     "TPEX OpenAPI",
     "Yahoo chart API"
   ],
-  "universe_count": 1976,
+  "universe_count": 1975,
   "error_count": 0,
-  "matches": [
-    {
-      "code": "8940",
-      "name": "新天地",
-      "market": "上市",
-      "date": "2026-08-14",
-      "close": 15.6,
-      "change_pct": 2.97,
-      "K": 27.1,
-      "D": 17.9,
-      "ma5": 15.34,
-      "prev_close": 15.15,
-      "prev_ma5": 15.29,
-      "volume": 91210,
-      "vol_avg5_prev": 30291,
-      "vol_ratio": 3.01,
-      "ma5_turn_up": true
-    },
-    {
-      "code": "6971",
-      "name": "惠民實業",
-      "market": "上櫃",
-      "date": "2026-08-14",
-      "close": 25.5,
-      "change_pct": 0.79,
-      "K": 24.4,
-      "D": 19.3,
-      "ma5": 25.49,
-      "prev_close": 25.3,
-      "prev_ma5": 25.49,
-      "volume": 60000,
-      "vol_avg5_prev": 24400,
-      "vol_ratio": 2.46,
-      "ma5_turn_up": false
-    },
-    {
-      "code": "6243",
-      "name": "迅杰",
-      "market": "上市",
-      "date": "2026-08-14",
-      "close": 46.8,
-      "change_pct": 6.61,
-      "K": 21.8,
-      "D": 20.4,
-      "ma5": 45.31,
-      "prev_close": 43.9,
-      "prev_ma5": 45.53,
-      "volume": 5200196,
-      "vol_avg5_prev": 2334869,
-      "vol_ratio": 2.23,
-      "ma5_turn_up": false
-    }
-  ]
+  "matches": []
 }
