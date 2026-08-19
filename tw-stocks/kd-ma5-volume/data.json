@@ -1,7 +1,7 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-08-19 03:01 Asia/Taipei",
-  "latest_date": "—",
+  "updated": "2026-08-20 03:00 Asia/Taipei",
+  "latest_date": "2026-08-18",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
@@ -10,5 +10,23 @@
   ],
   "universe_count": 1975,
   "error_count": 0,
-  "matches": []
+  "matches": [
+    {
+      "code": "2073",
+      "name": "雄順",
+      "market": "上櫃",
+      "date": "2026-08-18",
+      "close": 26.5,
+      "change_pct": 3.92,
+      "K": 28.9,
+      "D": 27.4,
+      "ma5": 25.99,
+      "prev_close": 25.5,
+      "prev_ma5": 26.06,
+      "volume": 7105,
+      "vol_avg5_prev": 2899,
+      "vol_ratio": 2.45,
+      "ma5_turn_up": false
+    }
+  ]
 }
