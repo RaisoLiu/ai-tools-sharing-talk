@@ -1,31 +1,31 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-08-20 03:00 Asia/Taipei",
-  "latest_date": "2026-08-18",
+  "updated": "2026-08-21 03:01 Asia/Taipei",
+  "latest_date": "2026-08-19",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
     "TPEX OpenAPI",
     "Yahoo chart API"
   ],
-  "universe_count": 1975,
+  "universe_count": 1973,
   "error_count": 0,
   "matches": [
     {
-      "code": "2073",
-      "name": "雄順",
-      "market": "上櫃",
-      "date": "2026-08-18",
-      "close": 26.5,
-      "change_pct": 3.92,
-      "K": 28.9,
-      "D": 27.4,
-      "ma5": 25.99,
-      "prev_close": 25.5,
-      "prev_ma5": 26.06,
-      "volume": 7105,
-      "vol_avg5_prev": 2899,
-      "vol_ratio": 2.45,
+      "code": "8101",
+      "name": "華冠",
+      "market": "上市",
+      "date": "2026-08-19",
+      "close": 11.0,
+      "change_pct": 10.0,
+      "K": 21.0,
+      "D": 18.0,
+      "ma5": 10.94,
+      "prev_close": 10.0,
+      "prev_ma5": 11.08,
+      "volume": 36599,
+      "vol_avg5_prev": 12556,
+      "vol_ratio": 2.91,
       "ma5_turn_up": false
     }
   ]
