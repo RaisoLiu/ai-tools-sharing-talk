@@ -1,7 +1,7 @@
 {
   "title": "台股 KD 低檔站上 5MA 放量篩選",
-  "updated": "2026-09-04 03:00 Asia/Taipei",
-  "latest_date": "2026-09-02",
+  "updated": "2026-09-05 03:00 Asia/Taipei",
+  "latest_date": "2026-09-03",
   "rules": "K<30、D<30；收盤由下往上站上5MA；成交量 > 前5日均量2倍",
   "sources": [
     "TWSE OpenAPI",
@@ -12,21 +12,21 @@
   "error_count": 0,
   "matches": [
     {
-      "code": "6762",
-      "name": "達亞",
+      "code": "2641",
+      "name": "正德",
       "market": "上櫃",
-      "date": "2026-09-02",
-      "close": 165.0,
-      "change_pct": 1.23,
-      "K": 23.1,
-      "D": 20.2,
-      "ma5": 163.6,
-      "prev_close": 163.0,
-      "prev_ma5": 163.4,
-      "volume": 3000,
-      "vol_avg5_prev": 610,
-      "vol_ratio": 4.92,
-      "ma5_turn_up": true
+      "date": "2026-09-03",
+      "close": 18.1,
+      "change_pct": 1.12,
+      "K": 16.8,
+      "D": 27.6,
+      "ma5": 17.96,
+      "prev_close": 17.9,
+      "prev_ma5": 17.98,
+      "volume": 3973531,
+      "vol_avg5_prev": 1770093,
+      "vol_ratio": 2.24,
+      "ma5_turn_up": false
     }
   ]
 }
